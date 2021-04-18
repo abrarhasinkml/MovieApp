@@ -55,20 +55,22 @@ export default function Home ({navigation}){
                     
                     
                 </View>
-                <ScrollView style={styles.moviecards}>
+                <ScrollView>
                     {state.search_res.map(
                         movie=>(
-                           <View key={movie.imdbID} style={styles.cards}>
+                           <View key={movie.imdbID} style={styles.moviecards}>
                                <Image
                                     style={styles.moviePoster}
                                     source={{
                                         uri: movie.Poster,
                                       }}
+                                    onPress={() => navigation.navigate('Detail',{
+                                        imdb: movie.imdbID})}
                                     />
-                               <Text style={styles.movietitle} onPress={() => navigation.navigate('Detail',{
-                                   imdb: movie.imdbID
-                               })}>{movie.Title}</Text>
                                 
+                                <Text style={styles.movietitle} onPress={() => navigation.navigate('Detail',{
+                                   imdb: movie.imdbID})}>{movie.Title}</Text>
+                               
                            </View> 
                         )
                     )}
@@ -125,20 +127,24 @@ const styles = StyleSheet.create({
     }
     ,
     moviecards:{
-        padding:10,
-        flexDirection:"row"
-    },
-    cards:{
-        flex:1
+        flexDirection:"row",
+        backgroundColor:"#2a9d8f",
+        marginTop:25,
+        alignItems:"center",
+        marginLeft:250,
+        marginRight:250
     },
     moviePoster:{
-        height:300,
-        width:300,
-        justifyContent:'flex-start'
+        height:100,
+        width:100,
+        
     },
     
     movietitle:{
-        justifyContent:'flex-end'
+        color:"#fff",
+        fontWeight:700,
+        fontSize:30,
+        marginLeft:10
     }
     
 
