@@ -4,7 +4,7 @@ import Home from './Screens/Home.js';
 import Detail from './Screens/Detail.js';
 
 const app=createStackNavigator({
-  Home:{screen:Home},
+  Home:{screen:Home, navigationOptions:{header:null}},
   Detail:{screen:Detail}
 });
 

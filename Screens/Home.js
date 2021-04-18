@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text,View, TextInput, Button, StyleSheet, ScrollView, Image} from 'react-native';
+import {Text,View, TextInput, Button, StyleSheet, ScrollView, Image, StatusBar} from 'react-native';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -14,7 +14,14 @@ export default function Home ({navigation}){
         selection:{},
         testText:""
     });
-
+    const checkInput=()=>{
+        if(!state.searchquery.trim()){
+            alert("Please enter a movie name!");
+        }
+        else{
+            searchMovie();
+        }
+    }
     const searchMovie=()=>{
         const url=apiURL+state.searchquery;
         axios(url).then(({data})=>{
@@ -27,22 +34,30 @@ export default function Home ({navigation}){
     }
         return(
             <View style={styles.container}>
-                <TextInput style={styles.searchbox}
-                    placeholder="Enter Movie Name"
-                    onSubmitEditing={searchMovie}
-                    onChangeText={text=>setState(prevState=>{return {...prevState, searchquery:text}})}
-                />
+                <View style={styles.headerdiv}>
+                    <View style={{flex:1}}>
+                        <Text style={styles.headerText}>MovieApp</Text>
+                    </View>
+                    <View style={{flex:1}}>
+                        <TextInput style={styles.searchbox}
+                            placeholder="Enter Movie Name"
+                            onSubmitEditing={checkInput}
+                            onChangeText={text=>setState(prevState=>{return {...prevState, searchquery:text}})}
+                        />
+                    </View>
+                    
+                </View>
                 <ScrollView style={styles.moviecards}>
                     {state.search_res.map(
                         movie=>(
-                           <View key={movie.imdbID}>
+                           <View key={movie.imdbID} style={styles.cards}>
                                <Image
                                     style={styles.moviePoster}
                                     source={{
                                         uri: movie.Poster,
                                       }}
                                     />
-                               <Text onPress={() => navigation.navigate('Detail',{
+                               <Text style={styles.movietitle} onPress={() => navigation.navigate('Detail',{
                                    imdb: movie.imdbID
                                })}>{movie.Title}</Text>
                                 
@@ -59,24 +74,51 @@ export default function Home ({navigation}){
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      alignItems: "center",
-      backgroundColor:'#9ACD32'
+      backgroundColor:"#264653"
+    },
+    headerdiv:{
+        flexDirection:"row",
+        alignSelf:"auto",
+        backgroundColor:"#2a9d8f",
+        paddingTop:70,
+        paddingBottom:10,
+    },
+    headerText:{
+        justifyContent:'flex-start',
+        color:"#fff",
+        fontWeight:700,
+        fontSize:30,
+        marginLeft:250,
+
     },
     searchbox:{
-        margin:20,
+        
+        justifyContent:'flex-end',
         width: 250,
         height: 36,
         borderRadius:45,
         backgroundColor:'#fff',
-        padding:10
+        padding:10,
+        
     },
-    searchbtn:{
-        flex:0
+    
+    moviecards:{
+        padding:10,
+        flexDirection:"row"
+    },
+    cards:{
+        flex:1
     },
     moviePoster:{
         height:300,
-        width:300
+        width:300,
+        justifyContent:'flex-start'
+    },
+    
+    movietitle:{
+        justifyContent:'flex-end'
     }
+    
 
     
   });
