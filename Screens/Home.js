@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text,View, TextInput, Button, StyleSheet, ScrollView, Image, StatusBar} from 'react-native';
+import {Text,View, TextInput, Button, StyleSheet, ScrollView, Image, StatusBar, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -39,12 +39,20 @@ export default function Home ({navigation}){
                         <Text style={styles.headerText}>MovieApp</Text>
                     </View>
                     <View style={{flex:1}}>
-                        <TextInput style={styles.searchbox}
-                            placeholder="Enter Movie Name"
-                            onSubmitEditing={checkInput}
-                            onChangeText={text=>setState(prevState=>{return {...prevState, searchquery:text}})}
-                        />
+                        <View style={styles.searchEnd}>
+                            <View style={{flex:1}}>
+                            <TextInput style={styles.searchbox}
+                                placeholder="Enter Movie Name"
+                                onSubmitEditing={checkInput}
+                                onChangeText={text=>setState(prevState=>{return {...prevState, searchquery:text}})}
+                            />
+                            </View>
+                            <View style={{flex:1}}>
+                                <TouchableOpacity style={styles.searchbtn} onPress={checkInput}>Search</TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
+                    
                     
                 </View>
                 <ScrollView style={styles.moviecards}>
@@ -78,7 +86,7 @@ const styles = StyleSheet.create({
     },
     headerdiv:{
         flexDirection:"row",
-        alignSelf:"auto",
+        alignSelf:"stretch",
         backgroundColor:"#2a9d8f",
         paddingTop:70,
         paddingBottom:10,
@@ -91,17 +99,31 @@ const styles = StyleSheet.create({
         marginLeft:250,
 
     },
+    searchEnd:{
+        flexDirection:'row',
+        alignSelf:"center",
+    },
     searchbox:{
         
-        justifyContent:'flex-end',
+        justifyContent:'flex-start',
         width: 250,
         height: 36,
         borderRadius:45,
         backgroundColor:'#fff',
         padding:10,
+        marginRight:90
         
     },
-    
+    searchbtn:{
+        height:36,
+        width:59,
+        backgroundColor:'#e9c46a',
+        borderRadius:45,
+        paddingTop:10,
+        
+        alignItems:"center"
+    }
+    ,
     moviecards:{
         padding:10,
         flexDirection:"row"
