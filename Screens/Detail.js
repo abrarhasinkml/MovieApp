@@ -1,23 +1,40 @@
 import React, {Component} from 'react';
-import {View, TextInput, Button, StyleSheet} from 'react-native';
+import {View, Text,TextInput, Button, StyleSheet} from 'react-native';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 
-export default class Home extends Component{
+export default function Detail ({navigation}){
+    const api_URL="http://www.omdbapi.com/?apikey=1c5b36f0&i=";
+    const [state,setState]=useState({
+        selection:[],
+    });
+    useEffect(()=>{
+        const loadMovie=()=>{
+            const url=api_URL+navigation.getParam('imdb');
+            console.log(url);
+            axios(url).then(({data})=>{
+                let d=data;
+                console.log(d)
+                setState(prevState=>{return{
+                    ...prevState,selection:d
+                }})
+            })
+        }
+        loadMovie();
+
+    },[])
     
-    render(){
-        return(
-            <View style={styles.container}>
-                <TextInput style={styles.searchbox}
-                    placeholder="New Screen"
-                />
-                <Button
-                    title="Search"
-                    style={styles.searchbtn}
-                    onPress={()=>this.props.navigation.navigate('Detail')}
-                >
-                </Button>
+    
+    return(
+        <View style={styles.container}>
+            
+            <View>
+                {state.selection.Title}
             </View>
-        );
-    }
+        </View>
+    );
+    
     
 }
 const styles = StyleSheet.create({
