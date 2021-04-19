@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text,TextInput, Button, StyleSheet, Image} from 'react-native';
+import {View, Text,TextInput, Button, StyleSheet, Image, ImageBackground} from 'react-native';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -33,22 +33,36 @@ export default function Detail ({navigation}){
         <View style={styles.container}>
             
             <View>
-                <Image
-                    style={styles.filmPoster}
-                    source={{
-                        uri: state.selection.Poster,
-                        }}
-                    />
-                <Text>{state.selection.Title}</Text>
-                <Text>{state.selection.Genre}</Text>
-                <Text>{state.selection.Director}</Text>
-                <Text>{state.selection.Plot}</Text>
-                <Text>{state.selection.Actors}</Text>
+                <Text style={styles.movieHeader}>{state.selection.Title}</Text>
+                <View style={styles.imageShadow}>
+                    <ImageBackground
+                            style={styles.filmPosterBanner}
+                            resizeMode="cover"
+                            source={{
+                                uri: state.selection.Poster,
+                                }}
+                            blurRadius={5}
+                            >
+                    <Image
+                        style={styles.filmPoster}
+                        source={{
+                            uri: state.selection.Poster,
+                            }}
+                        />
+                    </ImageBackground>
+                </View>
+                <Text style={styles.info}>Genre: {state.selection.Genre}</Text>
+                <Text style={styles.info}>Director: {state.selection.Director}</Text>
+                <Text style={styles.infoHeaders}>Plot</Text>
+                <Text style={styles.info}>{state.selection.Plot}</Text>
+                <Text style={styles.infoHeaders}>Cast</Text>
+                <Text style={styles.info}>{state.selection.Actors}</Text>
+                <Text style={styles.infoHeaders}>Ratings</Text>
                 <View>
                 {state.ratings.map(
                         rating=>(
                            <View key={rating.Source}>
-                               <Text>{rating.Source} - {rating.Value}</Text>
+                               <Text style={styles.info}>{rating.Source} - {rating.Value}</Text>
                            </View> 
                         )
                     )}
@@ -62,13 +76,53 @@ export default function Detail ({navigation}){
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      marginTop:50,
-      alignItems: "center"
+      paddingTop:50,
+      backgroundColor:"#264653"
+    },
+    imageShadow:{
+        shadowColor: '#202020',
+        shadowOffset: {width: 0, height: 5},
+        shadowRadius: 3,        
+    },
+    filmPosterBanner:{
+        flexDirection:"column",
+        height:400,
+        alignItems:"center"
     },
     filmPoster:{
-        width:300,
-        height:300
+        width:250,
+        height:250,
+        position:'absolute',
+        bottom:0,
+        shadowColor: '#202020',
+        shadowOffset: {width: 0, height: 3},
+        shadowRadius: 3,
+        
+    },
+    movieHeader:{
+        color:"#fff",
+        fontWeight:700,
+        fontSize:30,
+        alignSelf:"center",
+        marginBottom:8
+    },
+    info:{
+        color:"#fff",
+        fontWeight:300,
+        fontSize:15,
+        alignSelf:"center",
+        marginTop:5
+        
+    },
+    infoHeaders:{
+        color:"#fff",
+        fontWeight:300,
+        fontSize:20,
+        alignSelf:"center",
+        borderBottomColor:"#8d99ae"
     }
+    
+
 
     
   });

@@ -59,6 +59,7 @@ export default function Home ({navigation}){
                     {state.search_res.map(
                         movie=>(
                            <View key={movie.imdbID} style={styles.moviecards}>
+                               <View style={styles.shadow}>
                                <Image
                                     style={styles.moviePoster}
                                     source={{
@@ -67,7 +68,7 @@ export default function Home ({navigation}){
                                     onPress={() => navigation.navigate('Detail',{
                                         imdb: movie.imdbID})}
                                     />
-                                
+                                </View>
                                 <Text style={styles.movietitle} onPress={() => navigation.navigate('Detail',{
                                    imdb: movie.imdbID})}>{movie.Title}</Text>
                                
@@ -134,6 +135,11 @@ const styles = StyleSheet.create({
         marginLeft:250,
         marginRight:250
     },
+    shadow: {
+        shadowColor: '#202020',
+        shadowOffset: {width: 0, height: 0},
+        shadowRadius: 5,
+      },
     moviePoster:{
         height:100,
         width:100,

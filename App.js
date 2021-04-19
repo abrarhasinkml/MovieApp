@@ -5,7 +5,10 @@ import Detail from './Screens/Detail.js';
 
 const app=createStackNavigator({
   Home:{screen:Home, navigationOptions:{header:null}},
-  Detail:{screen:Detail}
+  Detail:{screen:Detail, navigationOptions:{headerStyle:{
+    backgroundColor:"#2a9d8f",
+    borderBottomColor:"#000000"
+  }}}
 });
 
 export default createAppContainer(app);
